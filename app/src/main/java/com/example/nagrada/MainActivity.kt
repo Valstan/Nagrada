@@ -38,5 +38,4 @@ private fun getData(commands: String, context: Context){
         }
     )
     queue.add(sRequest)
-
 }
