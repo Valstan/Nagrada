@@ -1,4 +1,4 @@
-package com.example.nagrada
+package com.example.nagrada.bin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
+import com.example.nagrada.models.BlankNameModel
 
 @Composable
 fun BlankName(BlankNameModel: BlankNameModel) {
@@ -21,7 +23,7 @@ fun BlankName(BlankNameModel: BlankNameModel) {
         verticalAlignment = Alignment.CenterVertically)
     {
         Image(
-            painter = painterResource(id = BlankNameModel.imageItem),
+            painter = rememberImagePainter("https://picsum.photos/300/300"),
             contentDescription = BlankNameModel.shortNameChild,
             contentScale = ContentScale.Crop,
             modifier = Modifier

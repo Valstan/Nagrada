@@ -1,0 +1,34 @@
+val outServer = ItemPostModel()
+    outServer.token = "0184a92f-6a4b-786d-a79e-804b415b8bb9"
+    outServer.collection = "sets"
+    val command = "get_data_sets"
+    val filePath = "sets.json"
+    postServer(command, outServer, filePath, context)
+
+
+private fun getData(response: String): List<ItemRowModel> {
+    if (response.isEmpty()) return emptyList()
+    val respData = ArrayList<ItemRowModel>()
+    val resPo = JSONObject(response)
+    for (i in 0 until resPo.length()) {
+        val item = resPo[i] as JSONObject
+        respData.add(
+            ItemRowModel(
+                dataItem = item[0]
+            )
+        )
+
+    }
+    return respData
+}
+
+
+private fun postServer(command: String, data: ItemPostModel, filePath: String, context: Context) {
+    Volley.newRequestQueue(context).add(JsonObjectRequest(
+        Request.Method.POST,
+        "https://nagradapi.store/nagrada/$command",
+        JSONObject(data.toString()),
+        { response ->
+            File(filePath).writeText(response.toString())},
+        {}))
+}

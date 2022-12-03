@@ -1,4 +1,4 @@
-package com.example.nagrada
+package com.example.nagrada.bin
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

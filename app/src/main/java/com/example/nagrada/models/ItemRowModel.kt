@@ -1,4 +1,4 @@
-package com.example.nagrada
+package com.example.nagrada.models
 
 data class ItemRowModel(
     val dataItem: Int,

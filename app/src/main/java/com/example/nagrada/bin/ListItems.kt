@@ -1,11 +1,15 @@
-package com.example.nagrada
+package com.example.nagrada.bin
 
+import android.content.Context
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import com.example.nagrada.bin.ItemRow
+import com.example.nagrada.models.ItemRowModel
 
 @Composable
-fun ListItems() {
+fun ListItems(context: Context) {
+    val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
     LazyColumn() {
         itemsIndexed(
             listOf(

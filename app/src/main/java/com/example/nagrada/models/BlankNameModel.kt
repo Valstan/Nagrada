@@ -1,7 +1,7 @@
-package com.example.nagrada
+package com.example.nagrada.models
 
 data class BlankNameModel(
-    val imageItem: Int,
+    val imageItem: String,
     val fullNameChild: String,
     val shortNameChild: String
 )
