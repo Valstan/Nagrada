@@ -10,9 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.nagrada.models.BlankNameModel
 
 @Composable
@@ -23,7 +22,7 @@ fun BlankName(BlankNameModel: BlankNameModel) {
         verticalAlignment = Alignment.CenterVertically)
     {
         Image(
-            painter = rememberImagePainter("https://picsum.photos/300/300"),
+            painter = rememberAsyncImagePainter(BlankNameModel.imageItem),
             contentDescription = BlankNameModel.shortNameChild,
             contentScale = ContentScale.Crop,
             modifier = Modifier

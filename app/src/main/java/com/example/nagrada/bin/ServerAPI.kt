@@ -53,24 +53,24 @@ fun updateToken(
         {}))
 }
 
-fun greatePerson(
-    context: Context) {
-    val myObject = JSONObject()
-    val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
-    myObject.put("login", myBASE.getString("login", ""))
-    myObject.put("password", myBASE.getString("password", ""))
-    myObject.put("name", myBASE.getString("name", ""))
-    myObject.put("family", myBASE.getString("family", ""))
-    myObject.put("avatar", myBASE.getString("avatar", ""))
-    myObject.put("phone", myBASE.getString("phone", ""))
-    myObject.put("email", myBASE.getString("email", ""))
-    myObject.put("telegram", myBASE.getString("telegram", ""))
-    myObject.put("theme", myBASE.getString("theme", ""))
-    myObject.put("token", myBASE.getString("token", ""))
-    Volley.newRequestQueue(context).add(JsonObjectRequest(
-        Request.Method.POST,
-        "https://nagradapi.store/nagrada/great_person",
-        myObject,
-        { return@JsonObjectRequest },
-        {}))
-}
+//fun greatePerson(
+//    context: Context) {
+//    val myObject = JSONObject()
+//    val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
+//    myObject.put("login", myBASE.getString("login", ""))
+//    myObject.put("password", myBASE.getString("password", ""))
+//    myObject.put("name", myBASE.getString("name", ""))
+//    myObject.put("family", myBASE.getString("family", ""))
+//    myObject.put("avatar", myBASE.getString("avatar", ""))
+//    myObject.put("phone", myBASE.getString("phone", ""))
+//    myObject.put("email", myBASE.getString("email", ""))
+//    myObject.put("telegram", myBASE.getString("telegram", ""))
+//    myObject.put("theme", myBASE.getString("theme", ""))
+//    myObject.put("token", myBASE.getString("token", ""))
+//    Volley.newRequestQueue(context).add(JsonObjectRequest(
+//        Request.Method.POST,
+//        "https://nagradapi.store/nagrada/great_person",
+//        myObject,
+//        { return@JsonObjectRequest },
+//        {}))
+//}

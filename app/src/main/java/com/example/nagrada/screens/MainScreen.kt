@@ -16,6 +16,7 @@ import com.example.nagrada.bin.BlankName
 import com.example.nagrada.bin.ListItems
 import com.example.nagrada.models.BlankNameModel
 
+
 @Composable
 fun MainScreen(context: Context) {
     val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
@@ -36,3 +37,4 @@ fun MainScreen(context: Context) {
         ListItems(context)
     }
 }
+
