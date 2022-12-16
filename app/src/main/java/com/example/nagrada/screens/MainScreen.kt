@@ -1,6 +1,7 @@
 package com.example.nagrada.screens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.example.nagrada.R
 import com.example.nagrada.bin.BlankName
 import com.example.nagrada.bin.ListItems
-import com.example.nagrada.models.BlankNameModel
 
 
 @Composable
 fun MainScreen(context: Context) {
-    val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
+
+    Log.d("Valstan", "Зашли в Майнскрин")
 
     Image(painter = painterResource(id = R.drawable.bg_fon),
         contentDescription = "",
@@ -29,11 +30,10 @@ fun MainScreen(context: Context) {
         contentScale = ContentScale.FillBounds)
 
     Column(modifier = Modifier
-        .fillMaxSize()
+        .fillMaxSize(0.9f)
         .padding(2.dp)) {
-        BlankName(BlankNameModel(myBASE.getString("avatar", "") as String,
-            myBASE.getString("family", "") as String,
-            myBASE.getString("name", "") as String))
+        Log.d("Valstan", "Зашли в Майнскрин в Колумн")
+        BlankName(context)
         ListItems(context)
     }
 }

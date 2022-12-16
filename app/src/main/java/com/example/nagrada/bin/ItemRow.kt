@@ -13,54 +13,52 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nagrada.models.ItemRowModel
+import org.json.JSONObject
 
 @Composable
-fun ItemRow(ItemsRow: ItemRowModel) {
+fun ItemRow(ItemsRow: ItemRowModel, sets: JSONObject) {
 
     Row(
         modifier = Modifier
-            .fillMaxSize().clip(RoundedCornerShape(20.dp))
+            .fillMaxSize()
+            .clip(RoundedCornerShape(10.dp))
             .padding(1.dp)
             .background(color = Color.LightGray.copy(alpha = 0.3f)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize(0.7f)
-                .background(color = Color.LightGray.copy(alpha = 0.2f)),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            Text(
-                text = ItemsRow.textItem,
-                Modifier.fillMaxWidth(0.9f),
-                fontSize = 18.sp
-            )
-            Text(
-                text = ItemsRow.ballsItem.toString(),
-                Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                color = Color.Red
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            Text(
-                text = ItemsRow.nagradaCountItem.toString(),
-                Modifier.fillMaxWidth(0.7f),
-                color = Color.Yellow,
-                textAlign = TextAlign.Center,
-                maxLines = 1
-            )
-            Text(
-                text = ItemsRow.nagradaNameItem,
-                maxLines = 1
-            )
-        }
+
+        Text(
+            text = sets.get(ItemsRow.text).toString(),
+            Modifier
+                .fillMaxWidth(0.65f)
+                .padding(start = 3.dp),
+            textAlign = TextAlign.Start,
+            fontSize = 20.sp
+        )
+        Text(
+            text = ItemsRow.ball.toString(),
+            Modifier.fillMaxWidth(0.25f),
+            textAlign = TextAlign.Start,
+            color = Color.Red,
+            fontSize = 20.sp,
+            maxLines = 1
+        )
+
+        Text(
+            text = ItemsRow.cash.toString(),
+            Modifier.fillMaxWidth(0.65f),
+            color = Color.Yellow,
+            textAlign = TextAlign.End,
+            fontSize = 16.sp,
+            maxLines = 1
+        )
+        Text(
+            text = sets.get(ItemsRow.currency).toString(),
+            fontSize = 16.sp,
+            color = Color.Black,
+            maxLines = 1
+        )
+
     }
 }

@@ -1,8 +1,9 @@
 package com.example.nagrada.models
 
 data class ItemRowModel(
-    val textItem: String,
-    val ballsItem: Int,
-    val nagradaCountItem: Int,
-    val nagradaNameItem: String
+    val prefix: String,
+    val text: String,
+    val ball: Int,
+    val cash: Int,
+    val currency: String
 )

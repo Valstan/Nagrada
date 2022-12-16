@@ -2,21 +2,24 @@ package com.example.nagrada.bin
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.nagrada.models.PersonModel
 import org.json.JSONObject
-
 
 
 fun getData(
     context: Context,
-    collection: String
+    collection: String,
 ) {
     val myObject = JSONObject()
     val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
-    myObject.put("token", myBASE.getString("token", ""))
+    val personIt = PersonModel(myBASE.getString("person", "").toString())
+    myObject.put("token", personIt.token)
     myObject.put("collection", collection)
+    Log.d("Valstan", myObject.toString())
     Volley.newRequestQueue(context).add(JsonObjectRequest(
         Request.Method.POST,
         "https://nagradapi.store/nagrada/get_data_sets",
@@ -28,29 +31,42 @@ fun getData(
 @SuppressLint("CommitPrefEdits")
 fun getDataWT(context: Context, command: String) {
     val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
+    val editor = myBASE.edit()
     val resp = getData(context, command).toString()
+    Log.d("Valstan", resp)
     if (resp == "wrong token") {
-        myBASE.edit().putString("token", updateToken(context).toString())
-        myBASE.edit().apply()
-        myBASE.edit().putString(command, getData(context, command).toString())
-        myBASE.edit().apply()
+        val personIt = PersonModel(myBASE.getString("person", "").toString())
+        personIt.token = updateToken(context).toString()
+        editor.putString("person", personIt.toString())
+        editor.apply()
+        val getDataFrom = getData(context, command).toString()
+        Log.d("Valstan", getDataFrom)
+        editor.putString(command, getDataFrom)
+        editor.apply()
     }
-    myBASE.edit().putString(command, resp)
-    myBASE.edit().apply()
+    editor.putString(command, resp)
+    editor.apply()
+    myBASE.getString("data", "").toString().let { Log.d("Valstan", it) }
+    myBASE.getString("sets", "").toString().let { Log.d("Valstan", it) }
 }
 
 fun updateToken(
     context: Context) {
     val myObject = JSONObject()
     val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
-    myObject.put("login", myBASE.getString("login", ""))
-    myObject.put("password", myBASE.getString("password", ""))
-    Volley.newRequestQueue(context).add(JsonObjectRequest(
-        Request.Method.POST,
-        "https://nagradapi.store/nagrada/update_token",
-        myObject,
-        { return@JsonObjectRequest },
-        {}))
+    val personIt = PersonModel(myBASE.getString("person", "").toString())
+    myObject.put("login", personIt.login)
+    myObject.put("password", personIt.password)
+    Log.d("Valstan", myObject.toString())
+    Volley.newRequestQueue(context).add(
+        JsonObjectRequest(
+            Request.Method.POST,
+            "https://nagradapi.store/nagrada/update_token",
+            myObject,
+            { return@JsonObjectRequest },
+            {},
+        ),
+    )
 }
 
 //fun greatePerson(

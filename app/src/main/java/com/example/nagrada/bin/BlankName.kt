@@ -1,5 +1,6 @@
 package com.example.nagrada.bin
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,18 +13,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.nagrada.models.BlankNameModel
+import org.json.JSONObject
 
 @Composable
-fun BlankName(BlankNameModel: BlankNameModel) {
+fun BlankName(context: Context) {
+    val myBASE = context.applicationContext.getSharedPreferences("BASE", Context.MODE_PRIVATE)
+    val person = JSONObject(myBASE.getString("person", "").toString())
+
     Row(
         Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically)
     {
         Image(
-            painter = rememberAsyncImagePainter(BlankNameModel.imageItem),
-            contentDescription = BlankNameModel.shortNameChild,
+            painter = rememberAsyncImagePainter(person.get("avatar")),
+            contentDescription = "${person.get("family")} ${person.get("name")}",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(64.dp)
@@ -36,13 +40,16 @@ fun BlankName(BlankNameModel: BlankNameModel) {
                 .padding(start = 5.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = BlankNameModel.fullNameChild, color = Color.White)
-            Row() {
+
+
+            Text(text = person.get("name").toString() + " " + person.get("family"), color = Color.White)
+
+
+            Row {
                 Text(text = "Всего богатств: ")
                 Text(text = "1570", color = Color.White)
                 Text(text = " руб.")
             }
-
         }
     }
 }
