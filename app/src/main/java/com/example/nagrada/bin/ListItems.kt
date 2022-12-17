@@ -80,12 +80,11 @@ fun ListItems(context: Context) {
             }
             Log.d("Valstan", "itemList - $itemList")
 
-
-
             itemsIndexed(itemList)
             { _, item ->
                 ItemRow(ItemsRow = item, sets)
             }
+
 
 
         }
