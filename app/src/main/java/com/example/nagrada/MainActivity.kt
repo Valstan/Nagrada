@@ -3,23 +3,32 @@ package com.example.nagrada
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.nagrada.models.DayModel
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.example.nagrada.screens.MainScreen
+import com.example.nagrada.models.DayModel
+import com.example.nagrada.models.PersonModel
+import com.example.nagrada.screens.Authorization
 import com.example.nagrada.ui.theme.NagradaTheme
-import org.json.JSONArray
 import org.json.JSONObject
 
 
 class MainActivity : ComponentActivity() {
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("CommitPrefEdits", "MutableCollectionMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -32,7 +41,8 @@ class MainActivity : ComponentActivity() {
                     val editor = myBASE.edit()
 //                    val sets = myBASE.getString("sets", "")
 //                    val data = myBASE.getString("data", "")
-//                    val person = myBASE.getString("person", "")
+                    val pers = myBASE.getString("person", "")
+
 
                     val monthList = listOf(
                         "пустой",
@@ -52,9 +62,9 @@ class MainActivity : ComponentActivity() {
                     editor.putString("monthlist", monthList.toString())
                     editor.apply()
 
-//                    if (person == "") {
-//                        Authorization()
-//                    }
+                    if (pers != null) {
+                        Authorization()
+                    }
 
 //                    val personItem = PersonModel()
 //                    "0184e741-01d6-737b-80a1-9e5ef0586826".also { personItem.token = it }
@@ -67,18 +77,22 @@ class MainActivity : ComponentActivity() {
 //                    "valstan".also { personItem.login = it }
 //                    "nitro2000".also { personItem.password = it }
 
-                    val personObject = JSONObject()
-                    personObject.put("token", "0184e741-01d6-737b-80a1-9e5ef0586826")
-                    personObject.put("family", "Савиных")
-                    personObject.put("name", "Валентин")
-                    personObject.put(
-                        "avatar", "https://sun9-13.userapi.com/" +
+                    val person = PersonModel(
+                        "Валентин",
+                        "Савиных",
+                        "valstan",
+                        "nitro2000",
+                        "https://sun9-13.userapi.com/" +
                                 "impg/CcUafm8BH-evHA019kmLiElHhCcPmkiXVrpGzQ/l37RJzmQ8mI.jpg?" +
-                                "size=484x480&quality=95&sign=5ccb5d814dfd4f510bdaa4a829dd89df&type=album"
+                                "size=484x480&quality=95&sign=5ccb5d814dfd4f510bdaa4a829dd89df&type=album",
+                        "",
+                        "",
+                        "",
+                        "black",
+                        "0184e741-01d6-737b-80a1-9e5ef0586826"
                     )
-                    personObject.put("login", "valstan")
-                    personObject.put("password", "nitro2000 язык")
-                    editor.putString("person", personObject.toString())
+
+                    editor.putString("parent", person.toString())
                     editor.apply()
 
 //                    if (sets == "") {
@@ -122,94 +136,88 @@ class MainActivity : ComponentActivity() {
                         "220601"
                     )
 
-                    val allList = JSONArray()
+                    var dayList = mutableListOf<DayModel>()
 
                     for (z in timeShtampe) {
-                        val zadanie = JSONArray()
+
                         for (y in 1..(1..6).random()) {
-
-                            zadanie.put(JSONArray().also {
-                                it.put("0")
-                                it.put((101..110).random().toString())
-                                it.put((1..20).random())
-                                it.put((-50..20000).random())
-                                it.put((1..4).random().toString())
-                            })
-                        }
-                        val dayList = JSONArray().also {
-                            it.put(z)
-                            it.put(zadanie)
-                        }
-
-                        allList.put(dayList)
-                    }
-
-
-                    Log.d("Valstan", "daylist - $allList")
-
-                    var list = mutableListOf<DayModel>()
-
-                    for (i in 0 until allList.length()) {
-
-                        list.add(
-                            DayModel(
-                                allList.getJSONArray(i).getString(0),
-                                allList.getJSONArray(i).getJSONArray(1)
+                            dayList.add(
+                                DayModel(
+                                    z,
+                                    "0",
+                                    (101..110).random().toString(),
+                                    (1..20).random(),
+                                    (-50..20000).random(),
+                                    (1..4).random().toString()
+                                )
                             )
-                        )
-                    }
-
-
-//                    ItemRowModel(
-//                        allList.getJSONArray(i).getJSONArray(1).getString(0),
-//                        allList.getJSONArray(i).getJSONArray(1).getString(1),
-//                        allList.getJSONArray(i).getJSONArray(1).getInt(2),
-//                        allList.getJSONArray(i).getJSONArray(1).getInt(3),
-//                        allList.getJSONArray(i).getJSONArray(1).getString(4)
-//                    )
-
-
-                    Log.d("Valstan", "list - $list")
-
-                    val sortedList = list.sortedWith(compareBy(DayModel::date))
-
-                    Log.d("Valstan", "sortedList - $sortedList")
-
-                    // Обратно в JsonArray
-                    val sortDayList = JSONArray()
-
-                    for (z in sortedList) {
-                        val zList = JSONArray().also {
-                            it.put(z.date)
-                            it.put(z.content)
                         }
-                        sortDayList.put(zList)
                     }
 
-                    editor.putString("data", sortDayList.toString())
-                    editor.apply()
+                    dayList = dayList.sortedWith(compareBy(DayModel::date)) as MutableList<DayModel>
 
-                    val proverka = JSONArray(myBASE.getString("data", ""))
 
-                    Log.d("Valstan", "proverka - $proverka")
 
-                    list = mutableListOf()
-
-                    for (i in 0 until proverka.length()) {
-
-                        list.add(
-                            DayModel(
-                                allList.getJSONArray(i).getString(0),
-                                allList.getJSONArray(i).getJSONArray(1)
-                            )
-                        )
+                    val daysList = remember {
+                        mutableStateOf(dayList)
                     }
 
-                    Log.d("Valstan", "list из памяти - $list")
+                    var cash = 0
 
-//                    LoaderScreen(this)
+                    for (i in daysList.value) {
+                        cash += i.cash
+                    }
 
-                    MainScreen(this)
+//                    // Обратно в JsonArray
+//                    val sortDayList = JSONArray()
+//
+//                    for (z in sortedList) {
+//                        val zList = JSONArray().also {
+//                            it.put(z.date)
+//                            it.put(z.content)
+//                        }
+//                        sortDayList.put(zList)
+//                    }
+//
+//                    editor.putString("data", sortDayList.toString())
+//                    editor.apply()
+//
+//                    val proverka = JSONArray(myBASE.getString("data", ""))
+//
+//                    Log.d("Valstan", "proverka - $proverka")
+//
+//                    list = mutableListOf()
+//
+//                    for (i in 0 until proverka.length()) {
+//
+//                        list.add(
+//                            DayModel(
+//                                allList.getJSONArray(i).getString(0),
+//                                allList.getJSONArray(i).getJSONArray(1)
+//                            )
+//                        )
+//                    }
+//
+//                    Log.d("Valstan", "list из памяти - $list")
+//
+////                    LoaderScreen(this)
+//
+                    Image(
+                        painter = painterResource(id = R.drawable.bg_fon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.7f),
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(0.9f)
+                            .padding(2.dp)
+                    ) {
+                        MainScreen(daysList, monthList, setsObject, person, cash)
+                    }
                 }
             }
         }
@@ -221,6 +229,11 @@ class MainActivity : ComponentActivity() {
 //@Composable
 //fun DefaultPreview() {
 //    NagradaTheme {
-//        MainScreen(this)
+//        MainScreen(daysList = daysList,
+//            monthList = monthList,
+//            sets = setsObject,
+//            person = parentList,
+//            cash = cash
+//        )
 //    }
 //}

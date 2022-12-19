@@ -1,8 +1,10 @@
 package com.example.nagrada.models
 
-import org.json.JSONArray
-
 data class DayModel(
     val date: String,
-    val content: JSONArray
-        )
+    val prefix: String,
+    val text: String,
+    val ball: Int,
+    val cash: Int,
+    val currency: String
+)
